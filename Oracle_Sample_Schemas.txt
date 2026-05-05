@@ -1,0 +1,11 @@
+<<Oracle Sample Schemas 설치>>
+1. Docker 컨테이너에 wget 설치
+
+오라클 샘플 데이터
+https://github.com/oracle-samples/db-sample-schemas/releases
+
+https://github.com/oracle-samples/db-sample-schemas/archive/refs/tags/v23.3.tar.gz
+
+사용자 테이블 목록
+SELECT table_name FROM user_tables;
+
