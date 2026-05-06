@@ -1,0 +1,8 @@
+MySQL 데이터베이스 백업 & 복원
+
+1. 백업
+$ mysqldump -u root -p phpusers > phpusers_backup.sql
+
+2. 복원
+
+$ mysql -u root -p phpusers < phpusers_backup.sql
