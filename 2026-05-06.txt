@@ -1,0 +1,15 @@
+/etc/postgresql/<version>/main/postgresql.conf
+
+/var/log/postgresql/postgresql-<version>-main.log
+
+https://github.com/goldnage/Oracle_Users_Security
+
+Oracle SYSDG는 Data Guard 운영 및 관리 작업을 전담하기 위해 12c부터 도입된 전용 관리 권한(Administrative Privilege)입니다. SYSDBA 권한 없이도 Data Guard Broker, Standby 데이터베이스 모니터링 및 복구 작업을 수행할 수 있어, 보안상 분리된 업무 환경(SoD) 구축에 필수적입니다.핵심 특징 및 활용:권한 범위: Data Guard 작업 관련(Broker 명령, 로그 전환 등)에 제한된 권한을 가지며, OS 인증 및 SQL*Plus 접속을 지원합니다.보안 향상: dbi services에 따르면, 최고 관리자(SYSDBA) 권한을 최소화하여 데이터 보호 전담자에게 최소 권한만 부여하는 것이 권장됩니다.설정 방법: OS에서 usermod -a -G sysdg <user>로 그룹을 추가하거나, DB에서 GRANT SYSDG TO <user>로 부여합니다.모니터링: OEM(Oracle Enterprise Manager)에서 스탠바이 데이터베이스 모니터링 시 SYSDG 역할을 사용할 수 있습니다.
+
+Oracle SYSKM 역할(Role)은 데이터베이스 암호화 키 관리(Encryption Key Management) 및 투명한 데이터 암호화(TDE) 작업을 전담하는 관리자 권한입니다. SYSDBA 권한 없이도 암호화 관련 작업(전자지갑 열기/닫기 등)을 수행할 수 있어 보안 분리(Separation of Duties)에 필수적입니다.SYSKM 역할의 주요 특징:TDE(Transparent Data Encryption) 관리: TDE 전자지갑(Wallet) 열기/닫기, 키 생성 및 관리.Database Vault 관리: Oracle Database Vault 구성 및 역할 관리.보안 분리: SYSDBA가 암호화 키에 접근하지 못하게 하여, 시스템 관리자와 데이터 보안 관리자의 직무를 분리.감사(Audit): SYSKM 사용자의 활동은 데이터베이스 내에서 감사 대상이 되어 보안 강화.사용 방법:sqlplus / as syskm 명령어를 사용하여 SYSKM 권한으로 접속할 수 있습니다.
+
+Oracle SYSRAC은 Oracle RAC(Real Application Clusters) 환경에서 Clusterware 에이전트가 데이터베이스 인스턴스를 관리하기 위해 사용하는 전용 시스템 권한/계정입니다. 주로 \(SRVCTL\) 명령을 통한 인스턴스 시작, 종료 및 RAC 관련 관리 작업에 필요한 최소한의 권한을 제공하여 보안을 강화합니다.SYSRAC 롤 주요 특징 및 정보용도: 오라클 RAC(Real Application Clusters) 관리 전용 계정으로, 관리 에이전트가 데이터베이스에 연결할 때 사용됩니다.주요 기능: Clusterware 에이전트를 대신하여 RAC 인스턴스 작업을 수행하며, 시스템 관리 권한(sysdba 등)을 전체적으로 부여하지 않고 RAC 관리에 필수적인 권한만 제한적으로 제공합니다.보안: 관리자 활동 감사(Auditing) 대상이 되며, 특정 oracle.com 자료에 따르면 SYSOPER, SYSDG, SYSKM과 함께 시스템 관리자 권한 중 하나로 분류됩니다.설정 및 사용: 오라클 12c R2 이상 환경에서 주로 활용되며, sql*plus 등을 통해 패스워드를 설정하고 사용합니다.
+
+
+
+
