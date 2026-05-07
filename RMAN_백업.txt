@@ -1,0 +1,29 @@
+RMAN을 사용하여 Oracle 26ai Free 컨테이너 데이터베이스(CDB)와 플러그인 가능한 데이터베이스(PDB)를 백업하려면 먼저 데이터베이스가 ARCHIVELOG 모드인지 확인해야 합니다.
+1. 전제 조건: 아카이브 로그 모드 활성화
+아직 활성화되지 않은 경우 데이터베이스를 아카이브 로그 모드로 전환해야 합니다:
+SQL*Plus를 통해 연결:
+$ sqlplus / as sysdba
+SQL> shutdown immediate;
+SQL> startup mount;
+SQL> alter database archivelog;
+SQL> alter database open;
+2. 전체 컨테이너 데이터베이스(CDB) 백업
+CDB를 자동으로 백업하는 것은 루트 컨테이너, 시드 PDB, 그리고 모든 연결된 PDB를 포함합니다.
+RMAN에 연결: 
+$ rman target /
+백업 명령 실행:
+RMAN> backup database plus archivelog;
+
+이 명령어는 모든 데이터 파일, 제어 파일, SPFILE 및 모든 아카이브된 재실행 로그를 백업합니다.
+
+3. 특정 플러그형 데이터베이스(PDB) 백업
+전체 컨테이너를 백업하지 않고도 하나 이상의 PDB를 백업할 수 있습니다.
+루트 컨테이너에서: CDB에 연결하고 PDB 이름을 지정합니다.
+RMAN> backup pluggable database pdb_name1, pdb_name2;
+```
+PDB에서 직접: SYSBACKUP 또는 SYSDBA 권한을 가진 사용자로서 특정 PDB에 직접 연결합니다.
+$ rman target sys@pdb_name
+RMAN> backup database;
+```
+
+$ date --> 현재 백업 시간 확인
