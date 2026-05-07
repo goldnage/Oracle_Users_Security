@@ -1,0 +1,29 @@
+<<Oracle Database Backup with RMAN>>
+
+1. RMAN 연결
+
+  $ export ORACLE_SID=FREE
+
+  $ rman target /
+
+2. RMAN 명령
+
+  자동 백업 구성
+  RMAN> configure controlfile autobackup on;
+
+  RMAN> configure device type disk backup type to compressed backupset;
+
+  풀 백업
+  RMAN> backup database plus archivelog;
+
+  백업셋 리스트
+  RMAN> LIST BACKUP;
+
+  특정 백업셋 검증
+  RMAN> validate backupset <primary_key>
+
+   쓸모업는 백업 청소
+  RMAN> delete obsolete;
+
+3. Ubuntu 호스트에서 백업 파일 접근
+
